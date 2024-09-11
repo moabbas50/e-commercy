@@ -1,7 +1,12 @@
 <x-guest-layout>
     <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
+
     <div class="hero-text-tablecell">
+        @if (Session::has('status'))
+        <div class="alert alert-danger">
+            {{ Session::get('status') }}
+        </div>
+    @endif
         <div class="form">
             <form method="POST" action="{{ route('login') }}">
                 @csrf
@@ -11,7 +16,7 @@
                     <x-input-label for="email" :value="__('Email')" />
                     <x-text-input id="email" class="form-control " type="email" name="email" :value="old('email')"
                         required autofocus autocomplete="username" />
-                    <x-input-error :messages="$errors->get('email')" class="mt-2" />
+                    <x-input-error :messages="$errors->get('email')" class="mt-2 alert alert-danger" />
                 </div>
 
                 <!-- Password -->
@@ -21,7 +26,7 @@
                     <x-text-input id="password" class="form-control" type="password" name="password" required
                         autocomplete="current-password" />
 
-                    <x-input-error :messages="$errors->get('password')" class="mt-2" />
+                    <x-input-error :messages="$errors->get('password')" class="mt-2 alert-danger" />
                 </div>
 
                 <!-- Remember Me -->
@@ -36,13 +41,11 @@
 
                 <div class="flex items-center justify-end mt-4">
                     @if (Route::has('password.request'))
-                        <a class=""
-                            href="{{ route('password.request') }}">
+                        <a class="" href="{{ route('password.request') }}">
                             {{ __('Forgot your password?') }}
                         </a>
                         <span>/</span>
-                        <a class=""
-                            href="{{ route('register') }}">
+                        <a class="" href="{{ route('register') }}">
                             {{ __('Register') }}
                         </a>
                     @endif

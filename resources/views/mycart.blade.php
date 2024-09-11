@@ -54,7 +54,8 @@
                                 <input type="number" name="quantity" value="{{ $item->products_qnt }}" min="1"
                                     class="form-control">
 
-                                <button    @if ($item->state == 'Confirmed') disabled @endif type="submit" class="btn btn-primary">Update</button>
+                                <button @if ($item->state == 'Confirmed') disabled @endif type="submit"
+                                    class="btn btn-primary">Update</button>
                             </form>
                         </td>
                         <td>${{ $item->Product_price }}</td>
@@ -64,11 +65,16 @@
                             <!-- Remove item from cart -->
                             <form action="{{ route('deletitem', $item->cartitem_id) }}">
                                 @csrf
-                                <button type="submit" class="btn btn-danger">Remove</button>
+
+                                @if ($item->state == 'Confirmed')
+                                    <button disabled type="submit" class="btn btn-danger">Remove</button>
+                                    @else
+                                    <button type="submit" class="btn btn-danger">Remove</button>
+                                @endif
                             </form>
                             <!-- Remove item from cart -->
                             <br>
-                            @if ($item->state == 'ready to buy')
+                            @if ($item->state == 'ready')
                                 <form action="{{ route('buyitem', $item->cartitem_id) }}">
                                     @csrf
                                     <button type="submit" class="btn btn-success">Buy Now</button>
@@ -79,7 +85,7 @@
                                     <p style="color: white">You need to Confirme Your Oreder</p>
                                     <button type="submit" class="btn btn-success">Confirme</button>
                                 </form>
-                                @elseif ($item->state == 'Confirmed')
+                            @elseif ($item->state == 'Confirmed')
                                 <p style="color: white">Your purchase is being processed.</p>
                             @endif
                         </td>

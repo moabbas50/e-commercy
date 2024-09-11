@@ -62,8 +62,11 @@
                                             @endif
 
                                             <td>{{ $item->Name }}</td>
-                                            <td>{{ $item->Description }}</td>
-                                            <td>{{ $item->Price }}</td>
+                                            @php
+                                                $miniDescrip =substr($item->Description,0,20);
+                                            @endphp
+                                            <td>{{ $miniDescrip.'....' }}</td>
+                                            <td>Egp {{ $item->Price }}</td>
                                             <td>{{ $item->stock }}</td>
                                             @if ($item->CreatedByAdminID)
                                                 <?php

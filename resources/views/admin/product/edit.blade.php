@@ -10,6 +10,11 @@
                 <div class="card">
                     <div class="card-body">
                         <h4 class="card-title">Edit Category</h4>
+                        @if ($errors->any())
+                            @foreach ($errors->all() as $error)
+                                <li class="text-danger">{{ $error }}</li>
+                            @endforeach
+                        @endif
                         @if (Session::has('done'))
                             <div class="alert alert-success">
                                 {{ Session::get('done') }}
@@ -53,26 +58,26 @@
                                 ->where('ProductID', '=', $product->ProductID)
                                 ->get();
                         @endphp
-                        @if (!$photos)
-                            <div class="form-group">
+                        @if ($photos->isEmpty())
+                            No Images For This Product To Update It
+                            <br><br>
+                            <a href="{{ route('product_image', $product->ProductID) }}">Add
+                                product`s images</a>
+                        @else
+                            <div class="form-group mt-5">
                                 <div class="row">
                                     @foreach ($photos as $item)
                                         <div class="col-lg-3">
-                                            <img width="50px"
+                                            <img width="150px"
                                                 src="{{ asset("admin/assets/images/upload/products/$item->PhotoURL") }}"
                                                 alt="">
                                         </div>
                                     @endforeach
-
                                 </div>
-                                <a href="{{ route('Editphotos', $product->ProductID) }}">Edit Product Photos</a>
-
+                                <a class="btn btn-warning btn-icon-text mt-2"
+                                    href="{{ route('Editphotos', $product->ProductID) }}">Edit Product Photos<i
+                                        class="mdi mdi-file-check btn-icon-append"></i></a>
                             </div>
-                        @else
-                            No Images For This Product To Update It
-                            <br><br>
-                            <a  href="{{ route('product_image', $product->ProductID) }}">Add
-                                product`s images</a>
                         @endif
 
 

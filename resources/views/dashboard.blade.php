@@ -1,26 +1,25 @@
 @extends('layout.master')
 
 @section('content')
-
-	<!-- hero area -->
-	<div class="hero-area hero-bg">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-9 offset-lg-2 text-center">
-					<div class="hero-text">
-						<div class="hero-text-tablecell">
-							<p class="subtitle">Fresh & Organic</p>
-							<h1>Delicious Seasonal Fruits</h1>
-							<div class="hero-btns">
-								<a href="shop.html" class="boxed-btn">Fruit Collection</a>
-								<a href="contact.html" class="bordered-btn">Contact Us</a>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+    <!-- hero area -->
+    <div class="hero-area hero-bg">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-9 offset-lg-2 text-center">
+                    <div class="hero-text">
+                        <div class="hero-text-tablecell">
+                            <p class="subtitle">Good & New</p>
+                            <h1>the best product in our Store</h1>
+                            <div class="hero-btns">
+                                <a href="shop.html" class="boxed-btn"> shoping</a>
+                                <a href="contact.html" class="bordered-btn">Contact Us</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- features list section -->
     <div class="list-section pt-80 pb-80">
@@ -73,7 +72,7 @@
                 <div class="col-lg-8 offset-lg-2 text-center">
                     <div class="section-title">
                         <h3><span class="orange-text">Our</span> Category</h3>
-                        <p> we have more than 50 fashion <style></style>
+                        <p> we have more than 50 Category<style></style>
                         </p>
                     </div>
                 </div>
@@ -81,18 +80,17 @@
 
             <div class="row">
                 @foreach ($categories as $item)
+                    <div class="col-lg-4 col-md-6 text-center">
+                        <div class="single-product-item">
+                            <div class="product-image">
+                                <a href="{{ route('products', $item->categoryID) }}"><img width="500px"
+                                        src="{{ asset('admin/assets/images/upload/category/' . $item->imagepath) }}"
+                                        alt=""></a>
+                            </div>
+                            <h3>{{ $item->categoryName }}</h3>
 
-
-                <div class="col-lg-4 col-md-6 text-center">
-                    <div class="single-product-item">
-                        <div class="product-image">
-                           <a href="{{url('products').'/'.$item->categoryID}}"><img src="{{url($item->imagepath)}}"
-                                    alt=""></a>
                         </div>
-                        <h3>{{ $item->categoryName }}</h3>
-
                     </div>
-                </div>
                 @endforeach
             </div>
         </div>
@@ -100,7 +98,7 @@
     <!-- end product section -->
 
     <!-- cart banner section -->
-    <section class="cart-banner pt-100 pb-100">
+    {{-- <section class="cart-banner pt-100 pb-100">
         <div class="container">
             <div class="row clearfix">
                 <!--Image Column-->
@@ -144,7 +142,7 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> --}}
     <!-- end cart banner section -->
 
     <!-- testimonail-section -->
@@ -209,7 +207,7 @@
     <!-- end testimonail-section -->
 
     <!-- advertisement section -->
-    <div class="abt-section mb-150">
+    {{-- <div class="abt-section mb-150">
         <div class="container">
             <div class="row">
                 <div class="col-lg-6 col-md-12">
@@ -232,20 +230,21 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
     <!-- end advertisement section -->
 
     <!-- shop banner -->
-    <section class="shop-banner">
+    {{-- <section class="shop-banner">
         <div class="container">
             <h3>December sale is on! <br> with big <span class="orange-text">Discount...</span></h3>
             <div class="sale-percent"><span>Sale! <br> Upto</span>50% <span>off</span></div>
             <a href="shop.html" class="cart-btn btn-lg">Shop Now</a>
         </div>
-    </section>
+    </section> --}}
     <!-- end shop banner -->
 
     <!-- latest news -->
+
     <div class="latest-news pt-150 pb-150">
         <div class="container">
 
@@ -253,75 +252,35 @@
                 <div class="col-lg-8 offset-lg-2 text-center">
                     <div class="section-title">
                         <h3><span class="orange-text">Our</span> News</h3>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid, fuga quas itaque eveniet
-                            beatae optio.</p>
+                        <p>our news is about our new sales and new product and the product which coming soon , and our new offers and so on </p>
                     </div>
                 </div>
             </div>
+            <div class="row">
+                @foreach ($news as $item)
+                    <div class="col-lg-4 col-md-6">
+                        <div class="single-latest-news">
+                            <a href="single-news.html">
+                                <div class="latest-news-bg news-bg-1"></div>
+                            </a>
+                            <div class="news-text-box">
+                                <h3>{{ $item->title }}</h3>
+                                <p class="blog-meta">
+                                    <span class="date"><i class="fas fa-calendar"></i>{{ $item->created_at }}</span>
+                                </p>
+                                <p class="excerpt">{{ $item->content }}</p>
 
-            <div class="row">
-                <div class="col-lg-4 col-md-6">
-                    <div class="single-latest-news">
-                        <a href="single-news.html">
-                            <div class="latest-news-bg news-bg-1"></div>
-                        </a>
-                        <div class="news-text-box">
-                            <h3><a href="single-news.html">You will vainly look for fruit on it in autumn.</a></h3>
-                            <p class="blog-meta">
-                                <span class="author"><i class="fas fa-user"></i> Admin</span>
-                                <span class="date"><i class="fas fa-calendar"></i> 27 December, 2019</span>
-                            </p>
-                            <p class="excerpt">Vivamus lacus enim, pulvinar vel nulla sed, scelerisque rhoncus nisi.
-                                Praesent vitae mattis nunc, egestas viverra eros.</p>
-                            <a href="single-news.html" class="read-more-btn">read more <i
-                                    class="fas fa-angle-right"></i></a>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="single-latest-news">
-                        <a href="single-news.html">
-                            <div class="latest-news-bg news-bg-2"></div>
-                        </a>
-                        <div class="news-text-box">
-                            <h3><a href="single-news.html">A man's worth has its season, like tomato.</a></h3>
-                            <p class="blog-meta">
-                                <span class="author"><i class="fas fa-user"></i> Admin</span>
-                                <span class="date"><i class="fas fa-calendar"></i> 27 December, 2019</span>
-                            </p>
-                            <p class="excerpt">Vivamus lacus enim, pulvinar vel nulla sed, scelerisque rhoncus nisi.
-                                Praesent vitae mattis nunc, egestas viverra eros.</p>
-                            <a href="single-news.html" class="read-more-btn">read more <i
-                                    class="fas fa-angle-right"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 offset-md-3 offset-lg-0">
-                    <div class="single-latest-news">
-                        <a href="single-news.html">
-                            <div class="latest-news-bg news-bg-3"></div>
-                        </a>
-                        <div class="news-text-box">
-                            <h3><a href="single-news.html">Good thoughts bear good fresh juicy fruit.</a></h3>
-                            <p class="blog-meta">
-                                <span class="author"><i class="fas fa-user"></i> Admin</span>
-                                <span class="date"><i class="fas fa-calendar"></i> 27 December, 2019</span>
-                            </p>
-                            <p class="excerpt">Vivamus lacus enim, pulvinar vel nulla sed, scelerisque rhoncus nisi.
-                                Praesent vitae mattis nunc, egestas viverra eros.</p>
-                            <a href="single-news.html" class="read-more-btn">read more <i
-                                    class="fas fa-angle-right"></i></a>
-                        </div>
-                    </div>
-                </div>
+                @endforeach
             </div>
-            <div class="row">
+            {{-- <div class="row">
                 <div class="col-lg-12 text-center">
                     <a href="news.html" class="boxed-btn">More News</a>
                 </div>
-            </div>
+            </div> --}}
         </div>
     </div>
     <!-- end latest news -->
 @endsection
-

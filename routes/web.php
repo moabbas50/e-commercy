@@ -1,13 +1,16 @@
 <?php
 
+use App\Http\Controllers\AboutController;
 use App\Http\Controllers\Admin\Admincontroller;
 use App\Http\Controllers\Admin\profile;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\NewsController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\photoController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
@@ -24,12 +27,8 @@ use Illuminate\Support\Facades\Mail;
 */
 
 Route::get('/', function () {
-
     return view('welcome');
-    // $categories =  DB::table('categories')->where('name' , 'books')->get();
-    // dd($categories);
-    // return view('welcome');
-})->name('home');
+})->name('welcome');
 
 
 // ////////////////////test mail///////////////
@@ -59,16 +58,21 @@ Route::get("/category", [CategoryController::class, 'index'])->name('category');
 Route::get("/product", [ProductController::class, 'index'])->name('product');
 Route::get("/products/{id}", [ProductController::class, 'show'])->name('products');
 Route::get("/singleproduct/{id}", [ProductController::class, 'show3'])->name('singleproduct');
-
+// ////////////////////news//////////////////
+Route::get("/ViewNews", [NewsController::class, 'index1'])->name('ViewNews');
 // ///////////////////////cart//////////////////////////////// //
+Route::middleware('auth')->middleware('blocked')->group(function () {
+    Route::get("/MyCart", [CartController::class, 'index'])->name('MyCart');
+    Route::post("/AddCart", [CartController::class, 'store'])->name('AddCart');
+    Route::post("/updateCart/{id}", [CartController::class, 'update'])->name('updateCart');
+    Route::get("/MyCart", [CartController::class, 'index'])->name('MyCart');
+    Route::get("/deletitem/{id}", [CartController::class, 'destroy'])->name('deletitem');
+    Route::get("/buyitem/{id}", [CartController::class, 'changes'])->name('buyitem');
+    Route::get("/confirmeitem/{id}", [CartController::class, 'Confirme'])->name('confirmeitem');
+});
 
-Route::get("/MyCart", [CartController::class, 'index'])->name('MyCart');
-Route::post("/AddCart", [CartController::class, 'store'])->name('AddCart');
-Route::post("/updateCart/{id}", [CartController::class, 'update'])->name('updateCart');
-Route::get("/MyCart", [CartController::class, 'index'])->name('MyCart');
-Route::get("/deletitem/{id}", [CartController::class, 'destroy'])->name('deletitem');
-Route::get("/buyitem/{id}", [CartController::class, 'changes'])->name('buyitem');
-Route::get("/confirmeitem/{id}", [CartController::class, 'Confirme'])->name('confirmeitem');
+
+
 
 // ///////////////////////////////////////////////////////////////////////////////
 // Route::get("/product/{id}", [ProductController::class, 'show'])->name('product');
@@ -93,8 +97,8 @@ Route::get("/confirmeitem/{id}", [CartController::class, 'Confirme'])->name('con
 
 
 // ///////////////////////////////////////// ADMIN //////////////////////////////////////////
-Route::prefix('admin')->group(function () {
-    Route::get('/showlogin', [Admincontroller::class, 'showLoginForm'])->name('admin_showLoginForm');
+Route::prefix('admin84')->group(function () {
+    Route::get('/', [Admincontroller::class, 'showLoginForm'])->name('admin_showLoginForm');
     Route::post('/login', [Admincontroller::class, 'login'])->name('admin_login');
     Route::get('/logout', [Admincontroller::class, 'logout'])->name('admin_logout');
 
@@ -104,7 +108,6 @@ Route::prefix('admin')->group(function () {
 
     Route::get('/rest-password/{remember_token}/{email}', [Admincontroller::class, 'rest_password'])->name('admin_rest_password');
     Route::post('/rest-password-submit', [Admincontroller::class, 'rest_password_submit'])->name('admin_rest_password_submit');
-
 });
 
 
@@ -143,18 +146,29 @@ Route::prefix('admin')->middleware('admin')->group(function () {
     Route::get("/Editphotos/{id}", [photoController::class, 'edit'])->name('Editphotos');
     Route::post("/UpdatePhoto/{id}", [photoController::class, 'update'])->name('UpdatePhoto');
 
-//////////////////////////////////////Orders////////////////////////////////
+    //////////////////////////////////////Orders////////////////////////////////
 
-Route::get("/viewOrders", [OrderController::class, 'index'])->name('viewOrders');
-Route::get("/order/{id}", [OrderController::class, 'show'])->name('order');
-Route::get("/accept/{id}", [OrderController::class, 'accept'])->name('accept');
-Route::get("/complete/{id}", [OrderController::class, 'complete'])->name('complete');
-// Route::get("/viewPro/{id}", [OrderController::class, 'show2'])->name('product_admin');
-
-// Route::post("/AddPro", [OrderController::class, 'store'])->name('creatPro');
-// Route::get("/EditPro/{id}", [OrderController::class, 'edit'])->name('EditPro');
-// Route::post("/UpdateP/{id}", [OrderController::class, 'update'])->name('UpdatePro');
-// Route::get("/deletpro/{id}", [OrderController::class, 'destroy'])->name('DeletPro');
+    Route::get("/viewOrders", [OrderController::class, 'index'])->name('viewOrders');
+    Route::get("/order/{id}", [OrderController::class, 'show'])->name('order');
+    Route::get("/accept/{id}", [OrderController::class, 'accept'])->name('accept');
+    Route::get("/complete/{id}", [OrderController::class, 'complete'])->name('complete');
+    // /////////////////news////////////////////////////
+    Route::get("/viewNewsA", [NewsController::class, 'index'])->name('viewNewsA');
+    Route::get("/ViewNew/{id}", [NewsController::class, 'show'])->name('ViewNew');
+    Route::get("/VAddNews", [NewsController::class, 'create'])->name('VAddNews');
+    Route::post("/CreateNews", [NewsController::class, 'store'])->name('CreateNews');
+    Route::get("/EditView/{id}", [NewsController::class, 'edit'])->name('EditView');
+    Route::post("/UpdateNews/{id}", [NewsController::class, 'update'])->name('UpdateNews');
+    Route::get("/deletNew/{id}", [NewsController::class, 'destroy'])->name('deletNew');
+    ///////////////////// about//////////////////////////
+    Route::get("/viewAboutA", [AboutController::class, 'index'])->name('viewAboutA');
+    Route::get("/viewAbout", [AboutController::class, 'index1'])->name('viewAbout');
+    Route::get("/EditAbout/{id}", [AboutController::class, 'edit'])->name('EditAbout');
+    Route::post("/UpdateAbout/{id}", [AboutController::class, 'update'])->name('UpdateAbout');
+    // //////////////////users////////////////////////////////////////
+    Route::get("/usersA",[UserController::class,'index'])->name('usersA');
+    Route::get("/blockUsers/{id}",[UserController::class,'block'])->name('blockUsers');
+    Route::get("/unblockUsers/{id}",[UserController::class,'unblock'])->name('unblockUsers');
 
 });
 
@@ -163,12 +177,14 @@ Route::get("/complete/{id}", [OrderController::class, 'complete'])->name('comple
 // ///////////////////Authanticate///////////////////////
 
 
-Route::get('/dashboard', function () {
+Route::get('/home', function () {
+    $news = DB::table('news')->get();
     $categories =  DB::table('categories')->get();
-    return view('dashboard', ['categories' => $categories]);
-})->middleware(['auth'])->name('dashboard');
 
-Route::middleware('auth')->group(function () {
+    return view('dashboard', ['categories' => $categories, 'news' => $news]);
+})->name('home');
+
+Route::middleware('auth')->middleware('blocked')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');

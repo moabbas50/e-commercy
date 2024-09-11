@@ -26,9 +26,9 @@
                         @if ($op == 1)
                             <ul>
                                 <li class="active" data-filter="*">All</li>
-                                <li data-filter=".Electronics">Electronics</li>
-                                <li data-filter=".Books">Books</li>
-                                <li data-filter=".Clothing">Clothing</li>
+                                @foreach ($categories as $cate)
+                                    <li data-filter=".{{ $cate->categoryName }}">{{ $cate->categoryName }}</li>
+                                @endforeach
 
                             </ul>
                         @else
@@ -52,30 +52,36 @@
                     </div>
                 </div>
             </div>
-
             <div class="row product-lists">
-
                 @foreach ($products as $item)
-                    <div class="col-lg-4 col-md-6 text-center {{ $item->categoryname }}">
+                    <div class="col-lg-4 col-md-6 text-center  {{ $item->categoryname }}">
                         <div class="single-product-item">
                             <div class="product-image">
-                                <a href="{{ url('singleproduct') . '/' . $item->ProductID }}"><img
-                                        src="{{ url('assets/img/products/product-img-2.jpg') }}" alt=""></a>
+                                <a href="{{ url('singleproduct') . '/' . $item->ProductID }}">
+                                    @php
+                                        $imgs = DB::table('photos')
+                                            ->where('ProductID', '=', $item->ProductID)
+                                            ->first();
+                                    @endphp
+                                    @if ($imgs)
+                                        <img src="{{ asset('admin/assets/images/upload/products/' . $imgs->PhotoURL) }}"
+                                            alt="image" />
+                                    @else
+                                        <img src="{{ asset('admin/assets/images/upload/products/product.png') }}"
+                                            alt="image" />
+                                    @endif
+                                </a>
                             </div>
                             <h3>{{ $item->Name }}</h3>
                             <p class="product-price"><span>Price</span> {{ $item->Price }}</p>
-
-
-                            <form action="{{url('AddCart')}}" method="POST" >
+                            <form action="{{ url('AddCart') }}" method="POST">
                                 @csrf
-                                <input hidden type="text" name="productId" value="{{ $item->ProductID}}"
+                                <input hidden type="text" name="productId" value="{{ $item->ProductID }}"
                                     class="form-control inp">
                                 <input hidden value="1" name="quantity" type="number" placeholder="0">
                                 <br>
-                                <button  class="bordered-btnn"><i class="fas fa-shopping-cart"></i> Add to Cart</button>
+                                <button class="bordered-btnn"><i class="fas fa-shopping-cart"></i> Add to Cart</button>
                             </form>
-
-
                         </div>
                     </div>
                 @endforeach

@@ -19,10 +19,10 @@
                                 {{ Session::get('err') }}
                             </div>
                         @endif
-                        <p class="card-description"><a href="/admin/Addcat"> Add </a><code>New Category</code>
+                        <p class="card-description"><a href="{{route('CreateC')}}"> Add </a><code>New Category</code>
                         </p>
                         <div class="table-responsive">
-                            <table class="table table-striped">
+                            <table class="table align-middle">
                                 <thead>
                                     <tr>
                                         <th></th>
@@ -40,7 +40,10 @@
                                                     alt="image" />
                                             </td>
                                             <td>{{ $item->categoryName }}</td>
-                                            <td>{{ $item->description }}</td>
+                                            @php
+                                              $miniDisc=substr($item->description,0,50);
+                                            @endphp
+                                            <td>{{ $miniDisc.'.....' }}</td>
                                             <td>
                                                 <div class="dropdown">
                                                     <button class="btn btn-secondary dropdown-toggle" type="button"

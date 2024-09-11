@@ -31,6 +31,7 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+        $time=now();
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
@@ -43,6 +44,7 @@ class RegisteredUserController extends Controller
             'email' => $request->email,
             'phoneNum'=> $request->phoneNum,
             'password' => Hash::make($request->password),
+            'created_at'=>$time,
         ]);
 
 

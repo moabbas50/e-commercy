@@ -16,8 +16,6 @@ class CartController extends Controller
     {
         $userId = Auth::user()->id;
         $cartproduct = DB::table('cartproduct_view')->where('userid', $userId)->get();
-
-
         return view('mycart', compact('cartproduct'));
     }
 

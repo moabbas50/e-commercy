@@ -48,7 +48,7 @@ class Admincontroller extends Controller
     public function logout()
     {
         Auth::guard('admin')->logout();
-        return redirect('/admin/showlogin');
+        return redirect()->route('admin_showLoginForm');
     }
     public function forget_password()
     {
@@ -75,7 +75,7 @@ class Admincontroller extends Controller
         Mail::to($request->email)->send(new Websitemail($subject, $message));
         return redirect()->back()->with('success', 'Reset Password Link Sent on your Email');
     }
-  
+
     public function rest_password($remember_token, $email)
     {
         $Admin_data = Admin::where('email', $email)->where('remember_token', $remember_token)->first();

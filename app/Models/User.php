@@ -12,6 +12,7 @@ class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+
     /**
      * The attributes that are mass assignable.
      *
@@ -41,4 +42,13 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    /**
+     *
+     *
+     * @return bool
+     */
+    public function isBlocked()
+    {
+        return $this->blocked;  // Ensure 'blocked' is a column in the users table
+    }
 }

@@ -53,7 +53,7 @@
                     <div class="main-menu-wrap">
                         <!-- logo -->
                         <div class="site-logo">
-                            <a href="/">
+                            <a href="{{ url('/home') }}">
                                 <img src="{{ asset('assets/img/logo2.png') }}" alt="">
                             </a>
                         </div>
@@ -63,44 +63,56 @@
                         <!-- menu start -->
                         <nav class="main-menu">
                             <ul>
-                                <li class="current-list-item"><a href="/">Hellow {{ Auth::user()->name }}</a>
+                                <li class="current-list-item"><a>Hellow
+
+
+                                        @if (Route::has('login'))
+                                            <div class="sm:fixed sm:top-0 sm:right-0 p-6 text-right">
+                                                @auth
+                                                    {{ Auth::user()->name }}
+                                                @else
+                                                    At Osiris Market
+                                                @endauth
+                                            </div>
+                                        @endif
+                                    </a>
                                 </li>
-                                <li class="current-list-item"><a href="/">Home</a>
+                                <li class="current-list-item"><a href="{{ url('/home') }}">Home</a>
 
                                 </li>
                                 <li><a href="about.html">About</a></li>
-                                <li><a href="#">Pages</a>
+                                <li><a href="{{ route('MyCart') }}">Cart</a></li>
+
+                                <li><a>Category</a>
                                     <ul class="sub-menu">
-                                        <li><a href="404.html">404 page</a></li>
-                                        <li><a href="about.html">About</a></li>
-                                        <li><a href="{{route('MyCart')}}">Cart</a></li>
-                                        <li><a href="checkout.html">Check Out</a></li>
-                                        <li><a href="contact.html">Contact</a></li>
-                                        <li><a href="news.html">News</a></li>
-                                        <li><a href="/category">Category</a></li>
-                                    </ul>
-                                </li>
-                                <li><a href="news.html">News</a>
-                                    <ul class="sub-menu">
-                                        <li><a href="news.html">News</a></li>
-                                        <li><a href="single-news.html">Single News</a></li>
+                                        @php
+                                            $categories = DB::table('categories')->get();
+                                        @endphp
+                                        @foreach ($categories as $item)
+                                            <li><a
+                                                    href="{{ route('products', $item->categoryID) }}">{{ $item->categoryName }}</a>
+                                            </li>
+                                        @endforeach
+
                                     </ul>
                                 </li>
                                 <li><a href="contact.html">Contact</a></li>
-                                <li><a href="/product">Shop</a>
-                                    <ul class="sub-menu">
-                                        <li><a href="/product">Shop</a></li>
-                                        <li><a href="checkout.html">Check Out</a></li>
-                                        <li><a href="single-product.html">Single Product</a></li>
-                                        <li><a href="cart.html">Cart</a></li>
-                                    </ul>
+                                <li><a href="{{ route('product') }}">Shop</a>
                                 </li>
-                                <li>
-                                    <a class="shopping-cart" href="{{ route('logout') }}">Logout</a>
-                                </li>
+
+                                @if (Route::has('login'))
+                                    @auth
+                                        <li> <a href="{{ route('profile.edit') }}">Edite Profile</a></li>
+                                        <li> <a href="{{ route('logout') }}">Logout</a></li>
+                                    @else
+                                        <li> <a href="{{ route('login') }}">Log in</a></li>
+                                    @endauth
+                                @endif
+
+
                                 <li>
                                     <div class="header-icons">
-                                        <a class="shopping-cart" href="cart.html"><i
+                                        <a class="shopping-cart" href="{{ route('MyCart') }}"><i
                                                 class="fas fa-shopping-cart"></i></a>
                                         <a class="mobile-hide search-bar-icon" href="#"><i
                                                 class="fas fa-search"></i></a>
@@ -140,7 +152,7 @@
 
 
 
-        @yield('content')
+    @yield('content')
 
 
 
@@ -164,9 +176,10 @@
                     <div class="footer-box get-in-touch">
                         <h2 class="widget-title">Get in Touch</h2>
                         <ul>
-                            <li>34/8, East Hukupara, Gifirtok, Sadan.</li>
-                            <li>support@fruitkha.com</li>
-                            <li>+00 111 222 3333</li>
+                            {{-- <li>34/8, East Hukupara, Gifirtok, Sadan.</li> --}}
+                            <li><a href="mailto:mohamed.abbass356@gmail.com">mohamed.abbass356@gmail.com</a></li>
+                            <li><a href="tel:+201123519556">+20 1123519556</a></li>
+                            <li><a href="tel:+201030260510">+20 1030260510</a></li>
                         </ul>
                     </div>
                 </div>
@@ -174,15 +187,15 @@
                     <div class="footer-box pages">
                         <h2 class="widget-title">Pages</h2>
                         <ul>
-                            <li><a href="index.html">Home</a></li>
+                            <li><a href="{{ url('/home') }}">Home</a></li>
                             <li><a href="about.html">About</a></li>
-                            <li><a href="services.html">Shop</a></li>
-                            <li><a href="news.html">News</a></li>
-                            <li><a href="contact.html">Contact</a></li>
+                            <li><a href="{{ route('product') }}">Shop</a></li>
+                            <li><a href="{{route('ViewNews')}}">News</a></li>
+                            {{-- <li><a href="contact.html">Contact</a></li> --}}
                         </ul>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-6">
+                {{-- <div class="col-lg-3 col-md-6">
                     <div class="footer-box subscribe">
                         <h2 class="widget-title">Subscribe</h2>
                         <p>Subscribe to our mailing list to get the latest updates.</p>
@@ -191,7 +204,7 @@
                             <button type="submit"><i class="fas fa-paper-plane"></i></button>
                         </form>
                     </div>
-                </div>
+                </div> --}}
             </div>
         </div>
     </div>
@@ -202,19 +215,19 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-6 col-md-12">
-                    <p>Copyrights &copy; 2019 - <a href="https://imransdesign.com/">Imran Hossain</a>, All Rights
-                        Reserved.<br>
-                        Distributed By - <a href="https://themewagon.com/">Themewagon</a>
+                    <p>Copyrights &copy; 2024 - <a href="https://www.linkedin.com/in/mohamed-abbass-b00537234">Mohamed
+                            Abbass</a>, All Rights
+                        Reserved
                     </p>
                 </div>
                 <div class="col-lg-6 text-right col-md-12">
                     <div class="social-icons">
                         <ul>
-                            <li><a href="#" target="_blank"><i class="fab fa-facebook-f"></i></a></li>
+                            {{-- <li><a href="#" target="_blank"><i class="fab fa-facebook-f"></i></a></li>
                             <li><a href="#" target="_blank"><i class="fab fa-twitter"></i></a></li>
                             <li><a href="#" target="_blank"><i class="fab fa-instagram"></i></a></li>
                             <li><a href="#" target="_blank"><i class="fab fa-linkedin"></i></a></li>
-                            <li><a href="#" target="_blank"><i class="fab fa-dribbble"></i></a></li>
+                            <li><a href="#" target="_blank"><i class="fab fa-dribbble"></i></a></li> --}}
                         </ul>
                     </div>
                 </div>

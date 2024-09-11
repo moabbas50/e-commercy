@@ -2,15 +2,31 @@
 
 @section('content')
     <!-- single product -->
+    <div class="breadcrumb-section breadcrumb-bg">
+        <div class="container">
+            <div class="row">
+            </div>
+        </div>
+    </div>
     <div class="single-product mt-150 mb-150">
         <div class="container">
             @if (Session::has('success'))
-            <li class="text-success">{{ Session::get('success') }}</li>
-        @endif
+                <li class="text-success">{{ Session::get('success') }}</li>
+            @endif
             <div class="row">
                 <div class="col-md-5">
                     <div class="single-product-img">
-                        <img src="assets/img/products/product-img-5.jpg" alt="">
+                        @php
+                            $imgs = DB::table('photos')
+                                ->where('ProductID', '=', $product->ProductID)
+                                ->get();
+                        @endphp
+                        @if ($imgs)
+                            @foreach ($imgs as $img)
+                                <img src="{{ asset('admin/assets/images/upload/products/' . $img->PhotoURL) }}"
+                                    alt="image" />
+                            @endforeach
+                        @endif
                     </div>
                 </div>
 
@@ -18,16 +34,16 @@
 
                     <div class="single-product-content">
                         <h3>{{ $product->Name }}</h3>
-                        <p class="single-product-pricing"><span>Per Kg</span> ${{ $product->Price }}</p>
+                        <p class="single-product-pricing"><span>Per Kg</span> EGP {{ $product->Price }}</p>
                         <p>{{ $product->Description }}</p>
                         <div class="single-product-form">
-                            <form action="{{url('AddCart')}}" method="POST" >
+                            <form action="{{ url('AddCart') }}" method="POST">
                                 @csrf
                                 <input hidden type="text" name="productId" value="{{ $product->ProductID }}"
                                     class="form-control inp">
                                 <input name="quantity" type="number" placeholder="0">
                                 <br>
-                                <button  class="bordered-btnn"><i class="fas fa-shopping-cart"></i> Add to Cart</button>
+                                <button class="bordered-btnn"><i class="fas fa-shopping-cart"></i> Add to Cart</button>
                             </form>
 
                             <p><strong>Categories: </strong>{{ $product->categoryname }}</p>

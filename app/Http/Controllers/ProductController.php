@@ -16,7 +16,8 @@ class ProductController extends Controller
     {
         $op = 1;
         $products = DB::table('products')->get();
-        return view('product', ['products' => $products, 'op' => $op]);
+        $categories= DB::table('categories')->get();
+        return view('product', ['products' => $products, 'op' => $op,'categories'=>$categories]);
 
         // if ($catid == null) {
         //     $products = DB::table('products')->get();

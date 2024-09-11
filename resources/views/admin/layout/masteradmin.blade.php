@@ -75,12 +75,23 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="../../pages/icons/mdi.html">
+                    <a class="nav-link" href="{{route('usersA')}}">
                         <i class="mdi mdi-emoticon  menu-icon"></i>
                         <span class="menu-title">Users</span>
                     </a>
                 </li>
-
+                <li class="nav-item">
+                    <a class="nav-link" href="{{route('viewNewsA')}}">
+                        <i class="mdi mdi-bullhorn  menu-icon"></i>
+                        <span class="menu-title">News</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{route('viewAboutA')}}">
+                        <i class="mdi mdi-alert-circle  menu-icon"></i>
+                        <span class="menu-title">About</span>
+                    </a>
+                </li>
                 <li class="nav-item sidebar-actions">
                     <div class="nav-link">
                         <div class="mt-4">

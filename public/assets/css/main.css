@@ -490,9 +490,9 @@ a.boxed-btn, a.bordered-btn, a.cart-btn {
   margin-bottom: 80px;
 }
 
-.breadcrumb-bg {
+/* .breadcrumb-bg {
   background-image: url(../img/breadcrumb-bg.jpg);
-}
+} */
 
 .breadcrumb-text p {
   color: #F28123;
@@ -508,9 +508,8 @@ a.boxed-btn, a.bordered-btn, a.cart-btn {
   margin: 0;
   margin-top: 20px;
 }
-
 .breadcrumb-section {
-  padding: 150px 0;
+  padding: 30px 0;
   background-size: cover;
   background-position: center center;
   position: relative;
@@ -1258,8 +1257,11 @@ div.owl-controls div.owl-nav div:hover {
   -webkit-box-shadow: 0 0 20px #ddd;
   box-shadow: 0 0 20px #ddd;
 }
-
+.product-image a img{
+max-height: 170px;
+}
 .product-image img {
+
   -webkit-transition: 0.3s;
   -o-transition: 0.3s;
   transition: 0.3s;

@@ -22,6 +22,7 @@ class CategoryController extends Controller
     {
         $categories =  DB::table('categories')->get();
 
+
         return view('admin.category.view', compact('categories'));
     }
 
@@ -38,11 +39,9 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-
-
         $request->validate([
             'categoryName' => ['required', 'string', 'max:255'],
-            'description' => ['required', 'string', 'lowercase', 'email', 'max:255'],
+            'description' => ['required', 'string', 'max:255'],
             'imagepath' => 'required',
 
         ]);
