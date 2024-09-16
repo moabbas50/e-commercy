@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\profile;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\NewsController;
+use App\Http\Controllers\notificationController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\photoController;
 use App\Http\Controllers\ProductController;
@@ -121,7 +122,6 @@ Route::prefix('admin')->middleware('admin')->group(function () {
     Route::get("/EditAdmin/{id}", [profile::class, 'edit'])->name('EditAdmin');
     Route::post("/UpdateAdmin/{id}", [profile::class, 'update'])->name('UpdateAdmin');
     Route::get("/DeletAdmin/{id}", [profile::class, 'destroy'])->name('DeletAdmin');
-
     // ////////////////////////categories///////////////////////////
 
     Route::get("/viewCatA", [CategoryController::class, 'indexA'])->name('viewCatA');
@@ -152,6 +152,7 @@ Route::prefix('admin')->middleware('admin')->group(function () {
     Route::get("/order/{id}", [OrderController::class, 'show'])->name('order');
     Route::get("/accept/{id}", [OrderController::class, 'accept'])->name('accept');
     Route::get("/complete/{id}", [OrderController::class, 'complete'])->name('complete');
+    Route::get("/notify", [OrderController::class, 'notify'])->name('notify');
     // /////////////////news////////////////////////////
     Route::get("/viewNewsA", [NewsController::class, 'index'])->name('viewNewsA');
     Route::get("/ViewNew/{id}", [NewsController::class, 'show'])->name('ViewNew');
@@ -166,10 +167,9 @@ Route::prefix('admin')->middleware('admin')->group(function () {
     Route::get("/EditAbout/{id}", [AboutController::class, 'edit'])->name('EditAbout');
     Route::post("/UpdateAbout/{id}", [AboutController::class, 'update'])->name('UpdateAbout');
     // //////////////////users////////////////////////////////////////
-    Route::get("/usersA",[UserController::class,'index'])->name('usersA');
-    Route::get("/blockUsers/{id}",[UserController::class,'block'])->name('blockUsers');
-    Route::get("/unblockUsers/{id}",[UserController::class,'unblock'])->name('unblockUsers');
-
+    Route::get("/usersA", [UserController::class, 'index'])->name('usersA');
+    Route::get("/blockUsers/{id}", [UserController::class, 'block'])->name('blockUsers');
+    Route::get("/unblockUsers/{id}", [UserController::class, 'unblock'])->name('unblockUsers');
 });
 
 

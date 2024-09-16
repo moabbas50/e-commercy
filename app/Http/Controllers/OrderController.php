@@ -12,17 +12,25 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $orders =  DB::table('orders')->get();
+        $orders =  DB::table('orders')->orderBy('OrderDate', 'desc')->get();
         return view('admin.order.orders-view', compact('orders'));
     }
 
+
+
+    public function notify()
+    {
+        $orders =  DB::table('orders')->where('notification', 'notify')->get();
+        foreach ($orders as $order) {
+            DB::table('orders')->where('OrderID', $order->OrderID)->update(['notification' => 'read']);
+        }
+        return redirect()->back();
+    }
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
-    {
-        //
-    }
+    public function create() {}
+
 
     /**
      * Store a newly created resource in storage.
@@ -32,24 +40,20 @@ class OrderController extends Controller
         //
     }
     /////////// change///////
-    public function accept(string $id) {
-        if($id){
-
-        }
-         DB::table('orders')->where('OrderID', '=', $id)->update([
+    public function accept(string $id)
+    {
+        DB::table('orders')->where('OrderID', '=', $id)->update([
             'Status' => 'ordering',
         ]);
         return redirect()->back()->with('done', 'Order  Accepted');
-
     }
-    public function complete(string $id) {
-        if($id){
-        }
-         DB::table('orders')->where('OrderID', '=', $id)->update([
+    public function complete(string $id)
+    {
+
+        DB::table('orders')->where('OrderID', '=', $id)->update([
             'Status' => 'complete',
         ]);
         return redirect()->back()->with('done', 'Order  Complete');
-
     }
     /**
      * Display the specified resource.
@@ -59,6 +63,7 @@ class OrderController extends Controller
         $order = DB::table('orders')->where('OrderID', '=', $id)->first();
         $userID = $order->userID;
         $user = DB::table('users')->where('id', '=', $userID)->first();
+        DB::table('orders')->where('OrderID',$id)->update(['notification' => 'read']);
         return view('admin.order.single-order', compact('order', 'user'));
     }
 

@@ -54,7 +54,7 @@
                                 <input type="number" name="quantity" value="{{ $item->products_qnt }}" min="1"
                                     class="form-control">
 
-                                <button @if ($item->state == 'Confirmed') disabled @endif type="submit"
+                                <button @if ($item->state == 'Confirmed'||$item->state == 'Pending') disabled @endif type="submit"
                                     class="btn btn-primary">Update</button>
                             </form>
                         </td>

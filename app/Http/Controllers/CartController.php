@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\Websitemail;
+use App\Notifications\OrderPlacedNotification;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class CartController extends Controller
 {
@@ -38,7 +41,7 @@ class CartController extends Controller
     {
         $currentTimestamp = now();
         $oreder = DB::table('cartproduct_view')->where('cartitem_id', $id)->first();
-
+        $user = DB::table('users')->where('id', $oreder->userid)->first();
         // Check if the product exists in the cart
         if ($oreder) {
             DB::table('cartitems')->where('CartItemID', $id)->update([
@@ -54,6 +57,12 @@ class CartController extends Controller
                 'invoice_no' => time(),
             ]);
 
+
+            $adminEmail = Auth::guard('admin')->user()->email;
+            $reset_link = url('admin/viewOrders');
+            $subject = "New Order";
+            $message = "Mr : $user->name have new order <br> <br> " . "<a href='" . $reset_link . "'> veiw the orders </a>";
+            Mail::to($adminEmail)->send(new Websitemail($subject, $message));
 
             return redirect()->back()->with('success', "Your confirmation is done ");
         } else {
@@ -88,11 +97,11 @@ class CartController extends Controller
         }
 
         // Check if the product is already in the cart
-        $cartItem = DB::table('cartitems')->where('ProductID', $productId)->get()->first();
+        $cartItem = DB::table('cartitems')->where('ProductID', $productId )->where('state','ready')->get()->first();
 
         if ($cartItem) {
             // If the product is already in the cart, update the quantity
-            DB::table('cartitems')->where('ProductID', $productId)->update([
+            DB::table('cartitems')->where('ProductID', $productId  )->where('state','ready')->update([
 
                 'quantity' =>  $quantity
 

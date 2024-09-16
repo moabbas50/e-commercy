@@ -32,7 +32,7 @@
                         <hr>
                         <h3>Order Detailes</h3>
                         <h6><a href="{{ route('product_admin', $order->product_id) }}">{{ $order->product_name }} </a>,
-                            {{ $order->size }}</h6>
+                            </h6>
                         <h6><span style="font-weight:bold">Quantity</span>: {{ $order->quantity }}</h6>
                         <h6><span style="font-weight:bold"> Total Price</span>: {{ $order->TotalAmount }}</h6>
                         <h6><span style="font-weight:bold"> InvoiceNumber</span>: {{ $order->invoice_no }}</h6>

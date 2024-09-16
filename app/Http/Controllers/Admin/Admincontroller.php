@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Admin;
 use App\Mail\Websitemail;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 
 use function Laravel\Prompts\password;
@@ -16,7 +17,7 @@ class Admincontroller extends Controller
 {
     public function dashboard()
     {
-        return view('admin.start');
+            return view('admin.start');
     }
 
 

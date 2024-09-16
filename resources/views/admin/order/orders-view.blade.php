@@ -23,7 +23,7 @@
                             <table class="table table-striped">
                                 <thead>
                                     <tr>
-                                        <th>Order num.</th>
+
                                         <th>Order Date</th>
                                         <th>Product Name</th>
                                         <th>Product Quantity</th>
@@ -42,7 +42,7 @@
                                             @elseif ($item->Status == 'complete')
                                             <tr style="background-color: rgb(38, 182, 86)">
                                         @endif
-                                        <td>{{ $item->OrderID }}</td>
+                                        
                                         <td>{{ $item->OrderDate }}</td>
                                         <td> <a
                                                 href="{{ route('product_admin', $item->product_id) }}">{{ $item->product_name }}</a>
@@ -51,7 +51,7 @@
                                         <td>{{ $item->TotalAmount }}</td>
                                         <td>{{ $item->invoice_no }}</td>
                                         <td>
-                                            <a  class="btn btn-success" href="{{ route('order', $item->OrderID) }}">View </a>
+                                            <a class="btn btn-success" href="{{ route('order', $item->OrderID) }}">View </a>
                                         </td>
                                         </tr>
                                     @endforeach
